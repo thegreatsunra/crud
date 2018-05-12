@@ -1,6 +1,6 @@
-# vue-seed
+# crud
 
-> Vue seed via Vue CLI and Webpack 4
+> what it says
 
 ## License
 
