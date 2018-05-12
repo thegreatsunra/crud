@@ -1,5 +1,6 @@
 // import Vue from 'vue'
 import random from '@/random'
+import { merge } from 'lodash'
 
 /*
 {
@@ -27,11 +28,21 @@ const mutations = {
       id: random.createString(8),
       firstName: payload.firstName,
       lastName: payload.lastName,
-      isAdmin: payload.isAdmin
+      isAdmin: payload.isAdmin,
+      newThing: {
+        name: ''
+      }
     })
   },
   UPDATE_USER (state, payload) {
-
+    merge(state.find(({ id }) => id === payload.id), {
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      isAdmin: payload.isAdmin,
+      newThing: {
+        name: payload.newThing.name
+      }
+    })
   },
   DESTROY_USER (state, userId) {
     state.forEach(({ id }, index) => {
