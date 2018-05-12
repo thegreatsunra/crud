@@ -9,7 +9,7 @@
     </form>
 
     <table>
-      <tr v-for="thing in things" :key="thing.id">
+      <tr v-for="thing in things" :key="thing.id" v-if="thing.isShared === true || thing.userId === user.id">
         <td>
           {{thing.id}}
         </td>
@@ -17,15 +17,17 @@
           {{thing.userId}}
         </td>
         <td>
-          <span v-if="editableThing !== thing.id || thing.userId !== user.id">{{thing.name}}</span>
-          <span v-if="editableThing === thing.id && thing.userId === user.id">
+          <span v-if="editableThingId !== thing.id || thing.userId !== user.id">{{thing.name}}</span>
+          <span v-if="editableThingId === thing.id && thing.userId === user.id">
             <input type="text" name="name" v-model.trim="thing.name">
           </span>
         </td>
         <td>
-          <button v-if="editableThing !== thing.id && thing.userId === user.id" @click.prevent="editThing(thing.id)">Edit</button>
-          <button v-if="editableThing === thing.id && thing.userId === user.id" @click.prevent="editThing(thing.id)">Save</button>
-          <button @click.prevent="destroyThing(thing.id)" v-if="editableThing !== thing.id && thing.userId === user.id">Delete</button>
+          <button v-if="editableThingId !== thing.id && thing.userId === user.id" @click.prevent="makeThingEditable(thing.id)">Edit</button>
+          <button v-if="editableThingId === thing.id && thing.userId === user.id" @click.prevent="makeThingEditable(thing.id)">Save</button>
+          <button @click.prevent="shareThing(thing.id)" v-if="editableThingId !== thing.id && thing.userId === user.id && thing.isShared === false">Share</button>
+          <button @click.prevent="unshareThing(thing.id)" v-if="editableThingId !== thing.id && thing.userId === user.id && thing.isShared === true">Unshare</button>
+          <button @click.prevent="destroyThing(thing.id)" v-if="editableThingId !== thing.id && thing.userId === user.id">Delete</button>
         </td>
       </tr>
     </table>
@@ -40,7 +42,7 @@ export default {
     return {
       users: this.$store.state.Users,
       things: this.$store.state.Things,
-      editableThing: ''
+      editableThingId: ''
     }
   },
   computed: {
@@ -51,11 +53,11 @@ export default {
     destroyThing (id) {
       this.$store.dispatch('destroyThing', id)
     },
-    editThing (id) {
-      if (!this.editableThing) {
-        this.editableThing = id
+    makeThingEditable (id) {
+      if (!this.editableThingId) {
+        this.editableThingId = id
       } else {
-        this.editableThing = ''
+        this.editableThingId = ''
       }
     },
     resetNewThing (userId) {
@@ -67,11 +69,26 @@ export default {
       }
       this.$store.dispatch('updateUser', payload)
     },
+    shareThing (id) {
+      const payload = {
+        id,
+        isShared: true
+      }
+      this.$store.dispatch('updateThing', payload)
+    },
+    unshareThing (id) {
+      const payload = {
+        id,
+        isShared: false
+      }
+      this.$store.dispatch('updateThing', payload)
+    },
     createThing (userId, thingName) {
         if (thingName !== '') {
           const newThing = {
             userId,
-            name: thingName
+            name: thingName,
+            isShared: false
           }
           this.$store.dispatch('createThing', newThing)
           this.resetNewThing(userId)

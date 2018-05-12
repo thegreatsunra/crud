@@ -7,7 +7,7 @@ import random from '@/random'
   id,
   name,
   userId,
-  shared
+  isShared
 }
 */
 
@@ -20,14 +20,14 @@ const mutations = {
       id: random.createString(8),
       name: payload.name,
       userId: payload.userId,
-      shared: payload.shared
+      isShared: payload.isShared
     })
   },
   UPDATE_THING (state, payload) {
     merge(state.find(({ id }) => id === payload.id), {
       name: payload.name,
       userId: payload.userId,
-      shared: payload.shared
+      isShared: payload.isShared
     })
   },
   DESTROY_THING (state, thingId) {
