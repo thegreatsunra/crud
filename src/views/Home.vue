@@ -23,12 +23,14 @@
           </span>
         </td>
         <td>
-          <button v-if="thingIsCopyable(thing, user)" @click.prevent="saveThingAsCopy(thing, user)">Save As</button>
           <button v-if="thingIsEditable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Edit</button>
           <button v-if="thingIsSavable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Save</button>
+          <button v-if="thingIsCopyable(thing, user)" @click.prevent="saveThingAsCopy(thing, user)">Save As</button>
           <button v-if="thingIsSharable(thing, user)" @click.prevent="shareThing(thing.id)">Share</button>
           <button v-if="thingIsUnsharable(thing, user)" @click.prevent="unshareThing(thing.id)">Unshare</button>
           <button v-if="thingIsDestroyable(thing, user)" @click.prevent="destroyThing(thing.id)">Delete</button>
+          <button v-if="thingIsStarrable(thing, user)" @click.prevent="starThing(thing.id, user.id)">Star</button>
+          <button v-if="thingIsUnstarrable(thing, user)" @click.prevent="unstarThing(thing.id, user.id)">Unstar</button>
         </td>
       </tr>
     </table>
@@ -75,6 +77,12 @@ export default {
     thingIsUnsharable (thing, user) {
       return this.editableThingId !== thing.id && thing.userId === user.id && thing.isShared === true ? true : false
     },
+    thingIsStarrable (thing, user) {
+      return this.editableThingId !== thing.id && thing.stars.findIndex(({ userId }) => userId === user.id) === -1 ? true : false
+    },
+    thingIsUnstarrable (thing, user) {
+      return this.editableThingId !== thing.id && thing.stars.findIndex(({ userId }) => userId === user.id) !== -1 ? true : false
+    },
     destroyThing (id) {
       this.$store.dispatch('destroyThing', id)
     },
@@ -119,13 +127,28 @@ export default {
           this.resetNewThing(userId)
       }
     },
+    starThing (thingId, userId) {
+      const payload = {
+        id: thingId,
+        userId: userId
+      }
+      console.log('STAR THING', payload)
+      this.$store.dispatch('starThing', payload)
+    },
+    unstarThing (thingId, userId) {
+      const payload = {
+        id: thingId,
+        userId: userId
+      }
+      this.$store.dispatch('unstarThing', payload)
+    },
     saveThingAsCopy (thing, user) {
-          const newThingCopy = {
-            userId: user.id,
-            name: `${thing.name} copy`,
-            isShared: false
-          }
-          this.$store.dispatch('createThing', newThingCopy)
+      const newThingCopy = {
+        userId: user.id,
+        name: `${thing.name} copy`,
+        isShared: false
+      }
+      this.$store.dispatch('createThing', newThingCopy)
     }
   }
 }
