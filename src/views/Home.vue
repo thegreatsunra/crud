@@ -23,6 +23,7 @@
           </span>
         </td>
         <td>
+          <button v-if="thingIsCopyable(thing, user)" @click.prevent="saveThingAsCopy(thing, user)">Save As</button>
           <button v-if="thingIsEditable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Edit</button>
           <button v-if="thingIsSavable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Save</button>
           <button v-if="thingIsSharable(thing, user)" @click.prevent="shareThing(thing.id)">Share</button>
@@ -64,6 +65,9 @@ export default {
     },
     thingIsSavable (thing, user) {
       return this.editableThingId === thing.id && thing.userId === user.id ? true : false
+    },
+    thingIsCopyable (thing, user) {
+      return this.editableThingId !== thing.id ? true : false
     },
     thingIsSharable (thing, user) {
       return this.editableThingId !== thing.id && thing.userId === user.id && thing.isShared === false ? true : false
@@ -114,6 +118,14 @@ export default {
           this.$store.dispatch('createThing', newThing)
           this.resetNewThing(userId)
       }
+    },
+    saveThingAsCopy (thing, user) {
+          const newThingCopy = {
+            userId: user.id,
+            name: `${thing.name} copy`,
+            isShared: false
+          }
+          this.$store.dispatch('createThing', newThingCopy)
     }
   }
 }
