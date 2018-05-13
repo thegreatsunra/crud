@@ -7,7 +7,12 @@ import random from '@/random'
   id,
   name,
   userId,
-  isShared
+  isShared,
+  stars: [
+    {
+      userId
+    }
+  ]
 }
 */
 
@@ -20,7 +25,8 @@ const mutations = {
       id: random.createString(8),
       name: payload.name,
       userId: payload.userId,
-      isShared: payload.isShared
+      isShared: payload.isShared,
+      stars: []
     })
   },
   UPDATE_THING (state, payload) {
@@ -29,6 +35,27 @@ const mutations = {
       userId: payload.userId,
       isShared: payload.isShared
     })
+  },
+  STAR_THING (state, payload) {
+
+    const thingIndex = state.findIndex(({ id }) => id === payload.id)
+    if (thingIndex !== -1) {
+      const userIndex = state[thingIndex].stars.findIndex(({ userId }) => userId === payload.userId)
+      if (userIndex === -1) {
+        state[thingIndex].stars.push({
+          userId: payload.userId
+        })
+      }
+    }
+  },
+  UNSTAR_THING (state, payload) {
+    const thingIndex = state.findIndex(({ id }) => id === payload.id)
+    if (thingIndex !== -1) {
+      const userIndex = state[thingIndex].stars.findIndex(({ userId }) => userId === payload.userId)
+      if (userIndex !== -1) {
+        state[thingIndex].stars.splice(userIndex, 1)
+      }
+    }
   },
   DESTROY_THING (state, thingId) {
     state.forEach(({ id }, index) => {
@@ -46,6 +73,22 @@ const actions = {
       await commit('CREATE_THING', payload)
     } catch (err) {
       console.log('error creating thing', err)
+    }
+  },
+  starThing: async ({ commit }, payload) => {
+    try {
+      console.log('starring thing')
+      await commit('STAR_THING', payload)
+    } catch (err) {
+      console.log('error starring thing', err)
+    }
+  },
+  unstarThing: async ({ commit }, payload) => {
+    try {
+      console.log('unstarring thing')
+      await commit('UNSTAR_THING', payload)
+    } catch (err) {
+      console.log('error unstarring thing', err)
     }
   },
   updateThing: async ({ commit }, payload) => {
