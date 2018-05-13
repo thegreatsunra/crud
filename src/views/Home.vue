@@ -9,7 +9,7 @@
     </form>
 
     <table>
-      <tr v-for="thing in things" :key="thing.id" v-if="thing.isShared === true || thing.userId === user.id">
+      <tr v-for="thing in things" :key="thing.id" v-if="thingIsAvailableForUser(thing, user)">
         <td>
           {{thing.id}}
         </td>
@@ -17,17 +17,17 @@
           {{thing.userId}}
         </td>
         <td>
-          <span v-if="editableThingId !== thing.id || thing.userId !== user.id">{{thing.name}}</span>
-          <span v-if="editableThingId === thing.id && thing.userId === user.id">
+          <span v-if="thingIsNotBeingEditedHere(thing, user)">{{thing.name}}</span>
+          <span v-if="thingIsSavable(thing, user)">
             <input type="text" name="name" v-model.trim="thing.name">
           </span>
         </td>
         <td>
-          <button v-if="editableThingId !== thing.id && thing.userId === user.id" @click.prevent="makeThingEditable(thing.id)">Edit</button>
-          <button v-if="editableThingId === thing.id && thing.userId === user.id" @click.prevent="makeThingEditable(thing.id)">Save</button>
-          <button @click.prevent="shareThing(thing.id)" v-if="editableThingId !== thing.id && thing.userId === user.id && thing.isShared === false">Share</button>
-          <button @click.prevent="unshareThing(thing.id)" v-if="editableThingId !== thing.id && thing.userId === user.id && thing.isShared === true">Unshare</button>
-          <button @click.prevent="destroyThing(thing.id)" v-if="editableThingId !== thing.id && thing.userId === user.id">Delete</button>
+          <button v-if="thingIsEditable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Edit</button>
+          <button v-if="thingIsSavable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Save</button>
+          <button v-if="thingIsSharable(thing, user)" @click.prevent="shareThing(thing.id)">Share</button>
+          <button v-if="thingIsUnsharable(thing, user)" @click.prevent="unshareThing(thing.id)">Unshare</button>
+          <button v-if="thingIsDestroyable(thing, user)" @click.prevent="destroyThing(thing.id)">Delete</button>
         </td>
       </tr>
     </table>
@@ -50,6 +50,27 @@ export default {
   components: {
   },
   methods: {
+    thingIsNotBeingEditedHere (thing, user) {
+      return this.editableThingId !== thing.id || thing.userId !== user.id ? true : false
+    },
+    thingIsAvailableForUser (thing, user) {
+      return thing.isShared === true || thing.userId === user.id ? true : false
+    },
+    thingIsDestroyable (thing, user) {
+      return this.editableThingId !== thing.id && thing.userId === user.id ? true : false
+    },
+    thingIsEditable (thing, user) {
+      return this.editableThingId !== thing.id && thing.userId === user.id ? true : false
+    },
+    thingIsSavable (thing, user) {
+      return this.editableThingId === thing.id && thing.userId === user.id ? true : false
+    },
+    thingIsSharable (thing, user) {
+      return this.editableThingId !== thing.id && thing.userId === user.id && thing.isShared === false ? true : false
+    },
+    thingIsUnsharable (thing, user) {
+      return this.editableThingId !== thing.id && thing.userId === user.id && thing.isShared === true ? true : false
+    },
     destroyThing (id) {
       this.$store.dispatch('destroyThing', id)
     },
