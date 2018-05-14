@@ -1,6 +1,6 @@
 {
   "name": "crud",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
@@ -14,7 +14,7 @@
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-persistedstate": "^2.5.2"
+    "vuex-persistedstate": "^2.5.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.10",
@@ -26,8 +26,8 @@
     "vue-template-compiler": "^2.5.16"
   },
   "browserslist": [
-    "> 1%",
+    "> 2%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie < 11"
   ]
 }
