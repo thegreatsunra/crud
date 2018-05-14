@@ -32,13 +32,13 @@
       </tr>
     </table>
 
-    <h1>Create Thing</h1>
+    <!-- <h1>Create Thing</h1>
     <form>
       <input type="text" name="name" v-model.trim="newThing.name" placeholder="name"><br>
       <input type="submit" @click.prevent="createThing()" value="Create Thing">
-    </form>
+    </form> -->
 
-    <h1>Things</h1>
+    <!-- <h1>Things</h1>
     <table>
       <tr v-for="thing in things" :key="thing.id">
         <td>
@@ -53,7 +53,7 @@
           <button @click.prevent="destroyThing(thing.id)" v-if="editableThing !== thing.id">Delete</button>
         </td>
       </tr>
-    </table>
+    </table> -->
   </div>
 </template>
 
@@ -79,25 +79,25 @@ export default {
   components: {
   },
   methods: {
-    destroyThing (id) {
-      this.$store.dispatch('destroyThing', id)
-    },
-    editThing (id) {
-      if (!this.editableThing) {
-        this.editableThing = id
-      } else {
-        this.editableThing = ''
-      }
-    },
-    resetNewThing () {
-      this.newThing.name = ''
-    },
-    createThing () {
-      if (this.newThing.name) {
-        this.$store.dispatch('createThing', this.newThing)
-        this.resetNewThing()
-      }
-    },
+    // destroyThing (id) {
+    //   this.$store.dispatch('destroyThing', id)
+    // },
+    // editThing (id) {
+    //   if (!this.editableThing) {
+    //     this.editableThing = id
+    //   } else {
+    //     this.editableThing = ''
+    //   }
+    // },
+    // resetNewThing () {
+    //   this.newThing.name = ''
+    // },
+    // createThing () {
+    //   if (this.newThing.name) {
+    //     this.$store.dispatch('createThing', this.newThing)
+    //     this.resetNewThing()
+    //   }
+    // },
     resetNewUser () {
       this.newUser.firstName = ''
       this.newUser.lastName = ''
