@@ -39,13 +39,34 @@
                 </td>
               </tr>
             </table>
-
             <h3 class="_heading">Create New Thing</h3>
             <form>
               <input type="text" placeholder="Thing name" v-model.trim="user.newThing.name">
               <input type="submit" class="_btn _btn--primary" @click.prevent="createThing(user.id, user.newThing.name)" value="Create">
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="_browser" v-if="users.length === 0">
+      <div class="_browser__chrome">
+        <div class="_browser__button _browser__button--danger"></div>
+        <div class="_browser__button _browser__button--warning"></div>
+        <div class="_browser__button _browser__button--success"></div>
+      </div>
+      <div class="_browser__content">
+        <div class="_app">
+          <div class="_app__header">
+            My Application
+          </div>
+          <div class="_app__nav">
+            <div class="_avatar" v-bind:title="`User ID: NONE`"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" width="16" height="16"><g class="nc-icon-wrapper" fill="#aaaaaa"><path d="M4.318,9A5,5,0,0,0,1.5,13.5h0s2,2,6.5,2,6.5-2,6.5-2h0A5,5,0,0,0,11.681,9" fill="none" stroke="#aaaaaa" stroke-linecap="round" stroke-linejoin="round" data-cap="butt" data-color="color-2"></path> <path d="M11.5,4c0,1.933-1.567,4.5-3.5,4.5S4.5,5.933,4.5,4a3.5,3.5,0,0,1,7,0Z" fill="none" stroke="#aaaaaa" stroke-linecap="round" stroke-linejoin="round" data-cap="butt"></path></g></svg></div> <div v-bind:title="`User ID: NONE`">Super Admin</div>
+          </div>
+          <div class="_app__view">
+            <p>There aren&rsquo;t any users in your application yet.</p>
+
+            <p>Why not head over to the <router-link to="/admin">Admin screen</router-link> and add a few?</p>
           </div>
         </div>
       </div>
