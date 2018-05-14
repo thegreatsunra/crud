@@ -1,6 +1,14 @@
 @import '~normalize.css';
 
 $base-spacing-unit: 6px;
+
+a {
+  color: #245b94;
+  &:hover {
+    color: #205090;
+    text-decoration: none;
+  }
+}
 body {
   font-size: $base-spacing-unit * 2.5;
   background-color: #eeeeee;
@@ -17,10 +25,10 @@ body {
   &__link {
     display: inline-block;
     padding: $base-spacing-unit $base-spacing-unit * 2 $base-spacing-unit $base-spacing-unit * 2;
-    color: #205090;
+    color: #245b94;
     text-decoration: none;
     &.router-link-exact-active {
-      background-color: #205090;
+      background-color: #245b94;
       color: #ffffff;
     }
   }
@@ -134,6 +142,7 @@ body {
   }
 }
 ._browser {
+  min-height: 300px;
   margin: $base-spacing-unit;
   background-color: #ffffff;
   box-shadow: 0 0 (6 * $base-spacing-unit) rgba(#000000, 0.5);
