@@ -1,8 +1,13 @@
 module.exports = {
   lintOnSave: false,
-  configureWebpack: {
-    output: {
-      publicPath: ''
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+      const overrides = {
+        output: {
+          publicPath: ''
+        }
+      }
+      return overrides
     }
   }
 }
