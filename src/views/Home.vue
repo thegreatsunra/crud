@@ -26,13 +26,16 @@
                     <input type="text" name="name" v-model.trim="thing.name">
                   </span>
                 </td>
-                <td>
+                <td class="_table__actions">
                   <button class="_btn" v-if="thingIsEditable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Edit</button>
                   <button class="_btn" v-if="thingIsSavable(thing, user)" @click.prevent="makeThingEditable(thing.id)">Save</button>
                   <button class="_btn" v-if="thingIsCopyable(thing, user)" @click.prevent="saveThingAsCopy(thing, user)">Save As</button>
                   <button class="_btn" v-if="thingIsSharable(thing, user)" @click.prevent="shareThing(thing.id)">Share</button>
                   <button class="_btn" v-if="thingIsUnsharable(thing, user)" @click.prevent="unshareThing(thing.id)">Unshare</button>
-                  <div v-if="thingIsDestroyable(thing, user)" @click.prevent="destroyThing(thing.id)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" width="16" height="16"><g class="nc-icon-wrapper" fill="#ed6c61"><path fill="#ed6c61" d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0z M11.5,10.1l-1.4,1.4L8,9.4l-2.1,2.1l-1.4-1.4L6.6,8 L4.5,5.9l1.4-1.4L8,6.6l2.1-2.1l1.4,1.4L9.4,8L11.5,10.1z"></path></g></svg></div>
+                </td>
+                <td class="_table__delete">
+                  <div v-if="thingIsDestroyable(thing, user)" @click.prevent="destroyThing(thing.id)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" width="16" height="16"><g class="nc-icon-wrapper" fill="#ed6c61"><path fill="#ed6c61" d="M14.7,1.3c-0.4-0.4-1-0.4-1.4,0L8,6.6L2.7,1.3c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4L6.6,8l-5.3,5.3 c-0.4,0.4-0.4,1,0,1.4C1.5,14.9,1.7,15,2,15s0.5-0.1,0.7-0.3L8,9.4l5.3,5.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3 c0.4-0.4,0.4-1,0-1.4L9.4,8l5.3-5.3C15.1,2.3,15.1,1.7,14.7,1.3z"></path></g></svg></div>
+                </td>
                 </td>
               </tr>
             </table>
